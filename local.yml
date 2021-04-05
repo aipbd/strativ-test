@@ -17,8 +17,8 @@ services:
     <<: *worker
     volumes:
       - ./media:/media
-      - ./strativ_test:/app/strativ_test
-      - ./pytest.ini:/app/pytest.ini
+      - ./strativ_test:/apps/strativ_test
+      - ./pytest.ini:/apps/pytest.ini
 
     command: >
       bash -c "urlwait &&

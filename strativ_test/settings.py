@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'strativ_test.apps.countries',
+
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
