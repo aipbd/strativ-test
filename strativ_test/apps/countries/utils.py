@@ -26,7 +26,7 @@ def add_countries():
             "neighbouring_countries": country.get("borders"),
             "timezones": country.get("timezones"),
             "flag": country.get("flag"),
-            "languages": country.get("languages"),
+            "languages": [language.get("name") for language in country.get("languages")],
         })
 
         for country in response_json
