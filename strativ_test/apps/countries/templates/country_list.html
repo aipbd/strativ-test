@@ -20,7 +20,7 @@
       <td v-for="item in columns" :key="item.field">
         
         <p v-if="item.field == 'name'" > <a :href="'details/?id=' + country.id">[[ country[item.header] ]]</a></p>
-        <p v-else" > [[ country[item.header] ]] </p>
+        <p v-else > [[ country[item.header] ]] </p>
         
 
       </td>
@@ -39,7 +39,7 @@
       delimiters: ["[[", "]]"],
 
     setup() {
-      const COUNTRY_GET_URL = "http://127.0.0.1:8000/api/countries/"
+      const COUNTRY_GET_URL = "http://0.0.0.0:8080/api/countries/"
       const CountriesList = ref([]);
       const search_value = ref([]);
 

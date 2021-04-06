@@ -14,7 +14,7 @@
       <td v-for="item in columns" :key="item.field">
         
         <p v-if="item.field == 'name'" > <a :href="'?id=' + country.id">[[ country[item.header] ]]</a></p>
-        <p v-else" > [[ country[item.header] ]] </p>
+        <p v-else> [[ country[item.header] ]] </p>
         
 
       </td>
@@ -38,7 +38,7 @@
       <td v-for="item in columns" :key="item.field">
         
         <p v-if="item.field == 'name'" > <a :href="'?id=' + country.id">[[ country[item.header] ]]</a></p>
-        <p v-else" > [[ country[item.header] ]] </p>
+        <p v-else > [[ country[item.header] ]] </p>
         
 
       </td>
@@ -61,11 +61,10 @@
       delimiters: ["[[", "]]"],
 
     setup() {
-      const COUNTRY_GET_URL = "http://127.0.0.1:8000/api/countries/"
+      const COUNTRY_GET_URL = "http://0.0.0.0:8080/api/countries/"
       const Country = ref([]);
       const CountriesList = ref([]);
       let country_id = 0
-      let country_alpha_code3 = ''
 
       function getParameterByName(name, url = window.location.href) {
         name = name.replace(/[\[\]]/g, '\\$&');

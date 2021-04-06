@@ -29,7 +29,7 @@ urlpatterns = [
         include(arg=(api_patterns, "strativ_test_api"), namespace="api"),
     ),
     path(
-        "country-view/",
+        "",
         include(arg=(html_view, "html_view"), namespace="web"),
     ),
 ]
