@@ -1,0 +1,91 @@
+<div id="app">
+
+  <input 
+  v-model="search_value" 
+  placeholder="search"
+  v-on:keyup.enter="getSearchResult"
+  >
+  <p>Searching for : [[ search_value ]]</p>
+
+
+  <table>
+    <tr>
+      <th v-for="item in columns" :key="item.field" >
+        [[ item.header ]]
+      </th>
+
+    </tr>
+
+    <tr v-for="country in CountriesList" ::key="country.id" >
+      <td v-for="item in columns" :key="item.field">
+        
+        <p v-if="item.field == 'name'" > <a :href="'details/?id=' + country.id">[[ country[item.header] ]]</a></p>
+        <p v-else" > [[ country[item.header] ]] </p>
+        
+
+      </td>
+  </table>
+
+</div>
+
+
+
+<script src="http://unpkg.com/vue@next"></script>
+
+<script>
+  const { createApp, ref } = Vue;
+
+  const App = {
+      delimiters: ["[[", "]]"],
+
+    setup() {
+      const COUNTRY_GET_URL = "http://127.0.0.1:8000/api/countries/"
+      const CountriesList = ref([]);
+      const search_value = ref([]);
+
+      const columns = [
+      { field: "id", header: "id" },
+      { field: "name", header: "name" },
+      { field: "alpha_code2", header: "alpha_code2" },
+      { field: "alpha_code3", header: "alpha_code3" },
+      { field: "capital", header: "capital" },
+      { field: "population", header: "population" },
+      { field: "timezones", header: "timezones" },
+      { field: "flag", header: "flag" },
+    ];
+
+
+      
+      async function getCountryList(url) {
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+       CountriesList.value = await response.json();
+
+    }
+
+
+    function getSearchResult() {
+      if (search_value.value.length > 0) {
+        getCountryList(`${COUNTRY_GET_URL}?name=${search_value.value}`);
+      }
+    }
+
+
+    getCountryList(COUNTRY_GET_URL);
+
+    return {
+      CountriesList,
+      columns,
+      search_value,
+      getSearchResult,
+      };
+    },
+
+  };
+
+  createApp(App).mount("#app");
+</script>

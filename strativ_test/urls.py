@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from strativ_test.apps.countries.urls import html_view
+
 api_patterns = [
     path('countries/', include('strativ_test.apps.countries.urls', namespace="countries")),
 ]
@@ -25,5 +27,9 @@ urlpatterns = [
     path(
         "api/",
         include(arg=(api_patterns, "strativ_test_api"), namespace="api"),
+    ),
+    path(
+        "country-view/",
+        include(arg=(html_view, "html_view"), namespace="web"),
     ),
 ]

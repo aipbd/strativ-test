@@ -1,0 +1,130 @@
+<div id="app">
+
+
+  <h2>Current Country</h2>
+  <table>
+    <tr>
+      <th v-for="item in columns" :key="item.field" >
+        [[ item.header ]]
+      </th>
+
+    </tr>
+
+    <tr v-for="country in [Country]" ::key="country.id" >
+      <td v-for="item in columns" :key="item.field">
+        
+        <p v-if="item.field == 'name'" > <a :href="'?id=' + country.id">[[ country[item.header] ]]</a></p>
+        <p v-else" > [[ country[item.header] ]] </p>
+        
+
+      </td>
+  </table>
+
+
+  <br>
+
+
+  <table>
+    <tr>
+      <th v-for="item in columns" :key="item.field" >
+        [[ item.header ]]
+      </th>
+
+    </tr>
+
+
+    <h2>Neighbouring Countries</h2>
+    <tr v-for="country in CountriesList" ::key="country.id" >
+      <td v-for="item in columns" :key="item.field">
+        
+        <p v-if="item.field == 'name'" > <a :href="'?id=' + country.id">[[ country[item.header] ]]</a></p>
+        <p v-else" > [[ country[item.header] ]] </p>
+        
+
+      </td>
+  </table>
+
+
+
+
+
+</div>
+
+
+
+<script src="http://unpkg.com/vue@next"></script>
+
+<script>
+  const { createApp, ref } = Vue;
+
+  const App = {
+      delimiters: ["[[", "]]"],
+
+    setup() {
+      const COUNTRY_GET_URL = "http://127.0.0.1:8000/api/countries/"
+      const Country = ref([]);
+      const CountriesList = ref([]);
+      let country_id = 0
+      let country_alpha_code3 = ''
+
+      function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+      const columns = [
+      { field: "id", header: "id" },
+      { field: "name", header: "name" },
+      { field: "alpha_code2", header: "alpha_code2" },
+      { field: "alpha_code3", header: "alpha_code3" },
+      { field: "capital", header: "capital" },
+      { field: "population", header: "population" },
+      { field: "timezones", header: "timezones" },
+      { field: "flag", header: "flag" },
+      { field: "languages", header: "languages" },
+    ];
+
+      
+      async function getCountryDetails(url) {
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      Country.value = await response.json();
+      getCountryList(`${COUNTRY_GET_URL}?neighbouring_country=${Country.value["alpha_code3"]}`)
+
+    }
+
+    async function getCountryList(url) {
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+       CountriesList.value = await response.json();
+
+    }
+
+    country_id = getParameterByName("id")
+    getCountryDetails(`${COUNTRY_GET_URL}${country_id}`);
+
+
+    return {
+      Country,
+      CountriesList,
+      columns,
+
+      };
+    },
+
+  };
+
+  createApp(App).mount("#app");
+</script>
