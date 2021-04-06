@@ -5,7 +5,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 from strativ_test.apps.countries.filters import CountryFilter
 from strativ_test.apps.countries.models import Country
-from strativ_test.apps.countries.serializers import CountrySerializer
+from strativ_test.apps.countries.serializers import CountrySerializer, CountryDetailsSerializer
 
 
 class CountryListAPIView(ListCreateAPIView):
@@ -18,7 +18,7 @@ class CountryListAPIView(ListCreateAPIView):
 
 
 class CountryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = CountrySerializer
+    serializer_class = CountryDetailsSerializer
     queryset = Country.objects.all()
     # permission_classes = []
 
@@ -26,6 +26,7 @@ class CountryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 def country_list(request):
     template = loader.get_template('country_list.html')
     return HttpResponse(template.render({}, request))
+
 
 def country_details(request):
     template = loader.get_template('country_details.html')

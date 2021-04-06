@@ -96,24 +96,11 @@
         },
       });
       Country.value = await response.json();
-      getCountryList(`${COUNTRY_GET_URL}?neighbouring_country=${Country.value["alpha_code3"]}`)
-
-    }
-
-    async function getCountryList(url) {
-      const response = await fetch(url, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-       CountriesList.value = await response.json();
-
+      CountriesList.value = Country.value["neighbouring_country_list"]
     }
 
     country_id = getParameterByName("id")
     getCountryDetails(`${COUNTRY_GET_URL}${country_id}`);
-
 
     return {
       Country,
