@@ -18,8 +18,17 @@ from django.urls import path, include
 
 from strativ_test.apps.countries.urls import html_view
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+)
+
+auth_patterns = [
+    path('', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+]
+
 api_patterns = [
     path('countries/', include('strativ_test.apps.countries.urls', namespace="countries")),
+    path('token/', include(arg=(auth_patterns, "auth_patterns"), namespace="auth")),
 ]
 
 urlpatterns = [

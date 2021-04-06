@@ -91,16 +91,29 @@
       async function getCountryDetails(url) {
       const response = await fetch(url, {
         headers: {
+          "Authorization": "Bearer " + localStorage.getItem('user-token'),
           "Content-Type": "application/json",
           Accept: "application/json",
         },
       });
-      Country.value = await response.json();
-      CountriesList.value = Country.value["neighbouring_country_list"]
+
+            
+      if (response.status == 200){
+        Country.value = await response.json();
+        CountriesList.value = Country.value["neighbouring_country_list"]
+      }else {
+        localStorage.removeItem('user-token')
+        window.location.replace("http://0.0.0.0:8080/login/")
+      }
     }
 
     country_id = getParameterByName("id")
-    getCountryDetails(`${COUNTRY_GET_URL}${country_id}`);
+
+    if (localStorage.getItem('user-token')){
+      getCountryDetails(`${COUNTRY_GET_URL}${country_id}`);
+    }else {
+      window.location.replace("http://0.0.0.0:8080/login/")
+    }
 
     return {
       Country,

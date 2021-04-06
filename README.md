@@ -11,3 +11,8 @@
 * Go to project directory
 * Type `docker-compose -f local.yml up --build`. Append the args `-d` to have the docker build and run the project in the background
 * This docker-compose file is designed only for local development purpose, not for production.
+
+#### Adding Countries Instructions:
+* Open Terminal
+* Go to project directory
+* Type `docker-compose -f local.yml exec web bash -c "python manage.py datafeeder"`

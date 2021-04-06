@@ -59,11 +59,19 @@
       async function getCountryList(url) {
       const response = await fetch(url, {
         headers: {
+          "Authorization": "Bearer " + localStorage.getItem('user-token'),
           "Content-Type": "application/json",
           Accept: "application/json",
         },
       });
-       CountriesList.value = await response.json();
+      
+      if (response.status == 200){
+          CountriesList.value = await response.json();
+      }else {
+        localStorage.removeItem('user-token')
+        window.location.replace("http://0.0.0.0:8080/login/")
+      }
+
 
     }
 
@@ -74,8 +82,13 @@
       }
     }
 
+    console.log("Bearer " + localStorage.getItem('user-token'))
+    if (localStorage.getItem('user-token')){
+      getCountryList(COUNTRY_GET_URL);
+    }else {
+      window.location.replace("http://0.0.0.0:8080/login/")
+    }
 
-    getCountryList(COUNTRY_GET_URL);
 
     return {
       CountriesList,

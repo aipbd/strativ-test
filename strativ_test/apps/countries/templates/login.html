@@ -1,0 +1,70 @@
+
+<div id="app">
+<form class="myLoginRoutine" @submit.prevent="myLoginRoutine">
+ <h1>Sign in</h1>
+ <label>User name</label>
+ <input required v-model="username" type="text" placeholder="Snoopy"/>
+ <label>Password</label>
+ <input required v-model="password" type="password" placeholder="Password"/>
+ <hr/>
+ <button type="submit">Login</button>
+</form>
+
+<h3>[[ warningText ]]</h3>
+</div>
+
+
+
+
+<script src="http://unpkg.com/vue@next"></script>
+
+<script>
+  const { createApp, ref, Promise } = Vue;
+
+  const App = {
+      delimiters: ["[[", "]]"],
+
+    setup() {
+
+      const username = ref("")
+      const password = ref("")
+      const warningText = ref("")
+
+
+      async function myLoginRoutine() {
+        console.log(username.value, password.value)
+      const response = await fetch("http://0.0.0.0:8080/api/token/", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          "username": username.value,
+          "password": password.value
+        })
+      });
+      console.log(response.status)
+
+      if (response.status == 200){
+        const data = await response.json();
+        localStorage.setItem('user-token', data.access)
+        window.location.replace("http://0.0.0.0:8080/")
+      }else {
+        warningText.value = "Wrong Credentials!"
+        localStorage.removeItem('user-token')
+      }
+    }
+
+    return {
+      myLoginRoutine,
+      username,
+      password,
+      warningText
+      };
+    },
+
+  };
+
+  createApp(App).mount("#app");
+</script>
