@@ -3,8 +3,8 @@
 
 #### Environment Variables (Pre-requisites to run the project)
 * Environment variables will be maintained: .env
-* Rename the __env directory to .env
-* Type `mv __env .env`
+* Copy the __env directory to .env
+* Type `cp -r __env/ .env/`
 
 #### Project Run Instructions:
 * Open Terminal

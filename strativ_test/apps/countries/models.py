@@ -10,10 +10,10 @@ class Country(models.Model):
     alpha_code3 = models.CharField(max_length=50, unique=True)
     capital = models.CharField(max_length=100)
     population = models.CharField(max_length=100)
-    timezones = models.JSONField()
+    timezones = models.JSONField(default=list)
     flag = models.URLField(blank=True, null=True)
-    languages = models.JSONField()
-    neighbouring_countries = models.JSONField()
+    languages = models.JSONField(default=list)
+    neighbouring_countries = models.JSONField(default=list)
 
     def __repr__(self):
         return self.name
