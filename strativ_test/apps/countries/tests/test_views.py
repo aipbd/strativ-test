@@ -52,11 +52,14 @@ class TestCountryDetailsAPI(BaseCountry):
 
     def test_country_details_with_neighbouring_countries(self, country, auth_client, url):
         neighbouring_country_1 = country
-        neighbouring_country_2 = CountryFactory(neighbouring_countries=neighbouring_country_1.alpha_code2)
+        neighbouring_country_2 = CountryFactory(neighbouring_countries=neighbouring_country_1.alpha_code3)
 
-        neighbouring_country_1.neighbouring_countries = [neighbouring_country_2.alpha_code2]
+        neighbouring_country_1.neighbouring_countries = [neighbouring_country_2.alpha_code3]
         neighbouring_country_1.save()
 
         response = auth_client.get(url)
         assert response.status_code == status.HTTP_200_OK
-        assert neighbouring_country_2.alpha_code2 in response.data.get("neighbouring_countries")
+        assert neighbouring_country_2.alpha_code3 in response.data.get("neighbouring_countries")
+        assert neighbouring_country_2.name in [
+            country_json.get('name') for country_json in response.data.get("neighbouring_country_list", [])
+        ]
