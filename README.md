@@ -18,6 +18,13 @@
 * Type `docker-compose -f local.yml exec web bash -c "python manage.py datafeeder"`
 
 
+#### Running Test Suite Instructions:
+* Open Terminal
+* Go to project directory
+* Type `docker-compose -f local.yml exec web bash -c "pytest"`
+
+
+
 #### Entering Python Shell:
 * Open Terminal
 * Go to project directory
