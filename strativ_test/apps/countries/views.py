@@ -13,7 +13,7 @@ class CountryListAPIView(ListCreateAPIView):
     serializer_class = CountrySerializer
     queryset = Country.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filter_class = CountryFilter
+    filterset_class = CountryFilter
     pagination_class = None  # Removing this line will activate default pagination
     permission_classes = [IsAuthenticated]
 
